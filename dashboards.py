@@ -4,7 +4,7 @@ from dash import Dash, dcc, html, Input, Output
 
 import plotly.graph_objects as go
 import dash_bootstrap_components as dbc
-#import base64
+import base64
 
 # Компоненты дизайна
 
@@ -71,10 +71,10 @@ row_1 = dbc.Row(
 
 row_2 = dbc.Row(dbc.Col(dbc.Card(card_3, color=border_color, outline=True,
                                  className="text-center")), className="mb-3")
-#image_filename = r'C:\Users\nadya\Downloads\noun-calendar-5386634.png'  # replace with your own image
-#encoded_image = base64.b64encode(open(image_filename, 'rb').read())
+image_filename = 'noun-calendar-5386634.png'  # replace with your own image
+encoded_image = base64.b64encode(open(image_filename, 'rb').read())
 drop_down = dbc.Row(
-    #[html.Img(src='data:image/png;base64,{}'.format(encoded_image.decode()), style={'width': '60px', 'height': '40x'}),
+    [html.Img(src='data:image/png;base64,{}'.format(encoded_image.decode()), style={'width': '60px', 'height': '40x'}),
 
      dcc.Dropdown(
          df_fact.date.unique(),
