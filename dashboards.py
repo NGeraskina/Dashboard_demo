@@ -23,7 +23,7 @@ font_size_head = 25
 
 ### ------------------Данные--------------------------
 df_fact = pd.DataFrame(
-    {'date': ['01/01/2022', '02/01/2022', '03/01/2022', '04/01/2022', '05/01/2022'], 'plan': [370, 380, 390, 400, 410],
+    {'date': ['01.01.2022', '02.01.2022', '03.01.2022', '04.01.2022', '05.01.2022'], 'plan': [370, 380, 390, 400, 410],
      'fact': [390, 395, 390, 393, 396]})
 df_fact['ratio'] = df_fact.fact / df_fact.plan * 100
 
@@ -36,27 +36,27 @@ df_plan = pd.DataFrame(
 
 # -------------Создание элементов дашборда-----------------------
 head = dcc.Markdown('''**Наполнение счетов эскроу**, млрд руб''',
-                    style={'font-family': 'Tahoma', 'font-size': font_size_head, 'color': font_color_dark,
+                    style={'font-family': 'Verdana', 'font-size': font_size_head, 'color': font_color_dark,
                            'textAlign': 'center'})
 card_2 = [
-    dbc.CardHeader("План", style={'font-family': 'Tahoma', 'font-size': 20, "color": font_color_dark}),
+    dbc.CardHeader("План", style={'font-family': 'Verdana', 'font-size': 20, "color": font_color_dark}),
     dbc.CardBody([html.B(
         1,
-        id="card-text2", style={'font-family': 'Tahoma', 'font-size': 30, "color": font_color_green})])]
+        id="card-text2", style={'font-family': 'Verdana', 'font-size': 30, "color": font_color_green})])]
 
 card_1 = [
-    dbc.CardHeader("Факт", style={'font-family': 'Tahoma', 'font-size': 20, "color": font_color_dark}),
+    dbc.CardHeader("Факт", style={'font-family': 'Verdana', 'font-size': 20, "color": font_color_dark}),
     dbc.CardBody(
         [html.B(
             2,
-            id="card-text1", style={'font-family': 'Tahoma', 'font-size': 30, "color": font_color_green}), ]), ]
+            id="card-text1", style={'font-family': 'Verdana', 'font-size': 30, "color": font_color_green}), ]), ]
 
 card_3 = [
-    dbc.CardHeader("Факт/План %", style={'font-family': 'Tahoma', 'font-size': 20, "color": font_color_dark}),
+    dbc.CardHeader("Факт/План %", style={'font-family': 'Verdana', 'font-size': 20, "color": font_color_dark}),
     dbc.CardBody(
         [html.B(
             3,
-            id="card-text3", style={'font-family': 'Tahoma', 'font-size': 30, "color": font_color_green}), ]), ]
+            id="card-text3", style={'font-family': 'Verdana', 'font-size': 30, "color": font_color_green}), ]), ]
 
 row_1 = dbc.Row(
     [
@@ -74,18 +74,18 @@ row_2 = dbc.Row(dbc.Col(dbc.Card(card_3, color=border_color, outline=True,
 image_filename = 'noun-calendar-5386634.png'  # replace with your own image
 encoded_image = base64.b64encode(open(image_filename, 'rb').read())
 drop_down = dbc.Row(
-    [html.Img(src='data:image/png;base64,{}'.format(encoded_image.decode()), style={'width': '60px', 'height': '40x'}),
+    [html.Img(src='data:image/png;base64,{}'.format(encoded_image.decode()), style={'width': '75px', 'height': '40x'}),
 
      dcc.Dropdown(
          df_fact.date.unique(),
          df_fact.date.min(),
          id='date-fact',
-         style={'font-family': 'Tahoma', 'font-size': 20, 'backgroundColor': background_color,
+         style={'font-family': 'Verdana', 'font-size': 20, 'backgroundColor': background_color,
                 'font-color': font_color_dark, "width": "70%", 'height': '40px'}), html.Br()
      #
      ])  #
 
-graph = dcc.Graph(id='indicator-graphic', style={'backgroundColor': background_color}, config={
+graph = dcc.Graph(id='indicator-graphic', style={'backgroundColor': 'white'}, config={
     'displayModeBar': False
 })
 slider = html.Div([html.Label("Плановый диапазон, кв.", htmlFor="month--slider"),
@@ -96,7 +96,7 @@ slider = html.Div([html.Label("Плановый диапазон, кв.", htmlFo
                        id='month--slider',
                        value=5,
                        marks={str(month): {'label': str(month),
-                                           'style': {'color': font_color_dark, 'font-family': 'Tahoma', 'size': 10}} for
+                                           'style': {'color': font_color_dark, 'font-family': 'Verdana', 'size': 10}} for
                               month in df_plan.month.unique()[-4:]})], style={'margin-top': '15px'})
 
 # ---------------------Создание приложения и выстраивание структуры дашборда из элементов---------------
@@ -124,16 +124,16 @@ def update_graph(month_slider):
     # fig = px.line(dff, x='month',
     #               y='volume',text="volume", markers=True, title="<b>План эскроу</b>"+", млрд руб")
     fig = go.Figure()
-    fig.add_trace(go.Scatter(x=dff.month, y=dff.volume, mode='lines+markers+text',
+    fig.add_trace(go.Scatter(x=dff.month, y=dff.volume, mode='lines+markers+text',marker_color=font_color_dark,line_color =font_color_dark, #line=dict(color=font_color_dark),
                              text=list(map(lambda x: f'{x:0.1f}', dff.volume.values)), textposition="top center",
                              textfont=dict(
-                                 family="Tahoma",
+                                 family="Verdana",
                                  size=10,
-                                 color="white"
+                                 color=font_color_dark
                              )))
     fig.update_layout(title=dict(text="<b>План эскроу</b>" + ", млрд руб",
-                                 font=dict(family='Tahoma', size=font_size_head, color=font_color_dark)),
-                      font_family='Tahoma', font_size=10, plot_bgcolor='#3E5057', title_x=0.5,
+                                 font=dict(family='Verdana', size=font_size_head, color=font_color_dark)),
+                      font_family='Verdana', font_size=10, plot_bgcolor='white', title_x=0.5,
                       yaxis_title=None,
                       xaxis_title='Кварталы', height=280, margin=dict(
             l=1,  # left
@@ -142,12 +142,15 @@ def update_graph(month_slider):
             b=5,  # bottom
         ))
     # fig.update_layout()
-    fig.update_xaxes(showgrid=False)
-    # fig.update_yaxes(title='y', )
-    fig.update_yaxes(showgrid=False, gridwidth=0.1, gridcolor='grey', visible=True, showticklabels=False)
-    fig.update_yaxes(range=[dff.volume.min() - 0.5, dff.volume.max() + 0.5])
+    fig.update_xaxes(showgrid=False,showline=True, linewidth=1, linecolor=font_color_dark,
+                  gridcolor=font_color_dark, gridwidth=1,
+                  zeroline=True, zerolinewidth=1, zerolinecolor=font_color_dark,)
+    # fig.update_yaxes(showgrid=False, gridwidth=0.1, gridcolor='grey', visible=True, showticklabels=False)
+    fig.update_yaxes(showgrid=False,range=[dff.volume.min() - 0.5, dff.volume.max() + 0.5],showline=True, linewidth=1, linecolor=font_color_dark,
+                  gridcolor=font_color_dark, gridwidth=1,
+                  zeroline=True, zerolinewidth=1, zerolinecolor=font_color_dark,)
 
-    fig.update_traces(line_color='white')
+    # fig.update_traces(line_color='white')
     return fig
 
 
